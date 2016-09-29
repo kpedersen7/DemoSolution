@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 #region Additional Namespaces
 using ChinookSystem.Data.Entities; //entity classes
+using ChinookSystem.Data.POCOs;     //POCOs classes
 using ChinookSystem.DAL;            //context class
 using System.ComponentModel;        //ODS
 #endregion
@@ -25,6 +26,25 @@ namespace ChinookSystem.BLL
             using (var context = new ChinookContext())
             {
                 return context.Artists.ToList();
+            }
+        }
+
+        //return a list of artists and all their albums
+        //this will use Linq to Entity data acess
+        //POCO classes will be used to define the data
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
+        public List<ArtistAlbums> ArtistAlbums_Get()
+        {
+            using (var context = new ChinookContext())
+            {
+                var results = from x in context.Albums
+                              where x.ReleaseYear == 2008
+                              orderby x.Artist.Name, x.Title
+                              select new ArtistAlbums
+                              {
+                                  Name = x.Artist.Name,
+                                  Title = x.Title
+                              };
             }
         }
     }
