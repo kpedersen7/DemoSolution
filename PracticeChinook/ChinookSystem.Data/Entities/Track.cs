@@ -4,9 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+#region Additional Namespaces
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+#endregion
+
 namespace ChinookSystem.Data.Entities
 {
-    class Track
+    //[Table("sqltablename")]
+    [Table("Tracks")]
+    public class Track
     {
+      
+        [Key]
+        public int TrackId { get; set; }
+        public string Name { get; set; }
+        public int? AlbumId { get; set; }
+        public int MediaTypeId { get; set; }
+        public int? GenreId { get; set; }
+        public string Composer { get; set; }
+        public int Milliseconds { get; set; }
+        public int? Bytes { get; set; }
+        public decimal UnitPrice { get; set; }
+
+        //navigation properties
+        public virtual Album Albums { get; set; }
+        public virtual MediaType MediaTypes { get; set;
+        //Genre parent
+        //InoviceLines children
+        //PlaylistTracks children
+        }
     }
 }
+
