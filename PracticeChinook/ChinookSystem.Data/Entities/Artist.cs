@@ -30,5 +30,18 @@ namespace ChinookSystem.Data.Entities
         [Key]
         public int ArtistId { get; set; }
         public string Name { get; set; }
+
+        //navigation properties for use by Linq
+        //use the DB ERD to determine the relationships
+
+        //these properties wqill be of type  virtual
+        //there are two types of navigation properties
+        //properties that point to "children" 
+        //     use ICollection<T> as the datatype
+        //properties that point to "parent"
+        //     use ParentClassName as the datatype
+
+        public virtual ICollection<Album> Albums { get; set; }
+
     }
 }
