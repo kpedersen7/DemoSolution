@@ -29,12 +29,12 @@ namespace ChinookSystem.Data.Entities
         public decimal UnitPrice { get; set; }
 
         //navigation properties
-        public virtual Album Albums { get; set; }
-        public virtual MediaType MediaTypes { get; set;
+        public virtual Album Album { get; set; }
+        public virtual MediaType MediaType { get; set;}
         //Genre parent
         //InoviceLines children
         //PlaylistTracks children
-        }
+        
     }
 }
 
