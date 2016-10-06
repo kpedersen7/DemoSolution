@@ -9,7 +9,7 @@ using eRestaurantSystem.Data.POCOs;
 #endregion
 namespace eRestaurantSystem.Data.DTOs
 {
-    public class MenuCategoryFoodItemsDTO
+    public class MenuCategoryFoodItemDTO
     {
         public string MenuCategoryDescription { get; set; }
         public List<FoodItemCounts> FoodItems { get; set; } 
