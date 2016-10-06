@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\BillItem.cs" />
     <Compile Include="Entities\Bill.cs" />
+    <Compile Include="Entities\BillItem.cs" />
+    <Compile Include="Entities\Item.cs" />
+    <Compile Include="Entities\MenuCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
