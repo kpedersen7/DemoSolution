@@ -46,38 +46,34 @@ namespace ChinookSystem.Security
             return this.Roles.Select(r => r.Name).ToList(); 
         }
 
-        //[DataObjectMethod(DataObjectMethodType.Select,false)]
-        //public List(RoleProfile)ListAllRoles()
-        //{
-            
-        //    var results = from role in Roles.ToList()
-        //                  select new RoleProfile()
-        //                  {
-        //                      UserId = person.Id,                       //security
-        //                      UserName = person.UserName,               //security
-        //                      Email = person.Email,                     //security
-        //                      EmailConfirmed = person.EmailConfirmed,   //security
-        //                      CustomerId = person.CustomerId,           //ApplicationUser
-        //                      EmployeeId = person.EmployeeId,           //ApplicationUser
-        //                      Rolememberships = person.Roles.Select(r => rm.FindById(r.RoleId).Name)    //security
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<RoleProfile> ListAllRoles()
+        {
+            var um = new UserManager();
+            var results = from role in Roles.ToList()
+                          select new RoleProfile()
+                          {
+                               RoleId = role.Id,                   //security
+                               RoleName = role.Name,               //security
+                               UserNames = role.Users.Select(r => um.FindById(r.UserId).UserName)    //security
 
-        //                  };
+                          };
+            return results.ToList();
+        }
 
-        //    //get any first name of users
-        //    using (var context = new ChinookContext())
-        //    {
-        //        Employee temp;
-        //        foreach (var person in results)
-        //        {
-        //            if (person.EmployeeId.HasValue)
-        //            {
-        //                temp = context.Employees.Find(person.EmployeeId);
-        //                person.FirstName = temp.FirstName;
-        //                person.LastName = temp.LastName;
-        //            }
-        //        }
-        //    }
-        //    return results.ToList();
-        //}
+        [DataObjectMethod(DataObjectMethodType.Insert,true)]
+        public void AddRole(RoleProfile role)
+        {
+            if(!this.RoleExists(role.RoleName))
+            {
+                this.Create(new IdentityRole(role.RoleName));
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Delete, true)]
+        public void RemoveRole(RoleProfile role)
+        {
+            this.Delete(this.FindById(role.RoleId));
+        }
     }
 }

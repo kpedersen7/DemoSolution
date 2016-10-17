@@ -105,12 +105,15 @@
                     </asp:ObjectDataSource>
                 </div> <%--eop--%>
                 <div class="tab-pane fade" id="roles">
-                   <%-- <asp:ListView ID="RoleListView" runat="server">
+                    <asp:ListView ID="RoleListView" runat="server" 
+                        DataSourceID="RoleODS" InsertItemPosition="LastItem"
+                         DataKeyNames="RoleID" ItemType="ChinookSystem.Security.RoleProfile"
+                         OnItemDeleted="RefreshAll" OnItemInserted="RefreshAll">
                         <EmptyDataTemplate>
                             <span>No Security roles have been set up.</span>
                         </EmptyDataTemplate>
                     
-                        <!-- layout template of 4 columns in view -->
+                        <%-- layout template of 3 columns in view --%>
                         <LayoutTemplate>
                             <div class="row bginfo">
                                 <div class="col-sm-3 h4">Action</div>
@@ -119,7 +122,7 @@
                             </div>
                             <div runat="server" id="itemPlaceholder"></div>
                         </LayoutTemplate>
-                        <!-- set up of display query template-->
+                        <%-- set up of display query template --%>
                         <ItemTemplate>
                             <div class="row">
                                 <div class="col-sm-3">
@@ -131,14 +134,15 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <asp:Repeater ID="RoleUserRepeater" runat="server"
-                                            DataSource="<%# Item.UserNames %>">
+                                            DataSource="<%# Item.UserNames %>"
+                                             ItemType="System.String">
                                         <ItemTemplate> <%# Item %></ItemTemplate>
                                         <SeparatorTemplate>, </SeparatorTemplate>
                                     </asp:Repeater>
                                 </div>
                             </div>
                         </ItemTemplate>
-                        <!-- set up of display Insert template-->
+                        <%-- set up of display Insert template--%>
                         <InsertItemTemplate>
                             <div class="row">
                                 <div class="col-sm-3">
@@ -154,7 +158,14 @@
                             </div>
                         </InsertItemTemplate>
                     </asp:ListView>
-                    <asp:ObjectDataSource ID="RoleODS" runat="server"></asp:ObjectDataSource>--%>
+                    <asp:ObjectDataSource ID="RoleODS" runat="server" 
+                        DataObjectTypeName="ChinookSystem.Security.RoleProfile" 
+                        SelectMethod="ListAllRoles"
+                        DeleteMethod="RemoveRole" 
+                        InsertMethod="AddRole" 
+                        OldValuesParameterFormatString="original_{0}"  
+                        TypeName="ChinookSystem.Security.RoleManager">
+                    </asp:ObjectDataSource>
                 </div> <%--eop--%>
                 <div class="tab-pane fade" id="unregistered">
                     <asp:GridView ID="UnregisteredUsersGridView" runat="server"
