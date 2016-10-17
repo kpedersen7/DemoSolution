@@ -93,6 +93,7 @@
                             <%-- a root menu item can also have an external
                                 closing tag but NO nested MenutItems --%>
 
+                            <asp:MenuItem Text="WebMaster" NavigateUrl="~/Admin/Security/Default" />
                             <asp:MenuItem Text="About" NavigateUrl="~/About" />
                             <asp:MenuItem Text="Contact" NavigateUrl="~/Contact" />
                         </Items>
