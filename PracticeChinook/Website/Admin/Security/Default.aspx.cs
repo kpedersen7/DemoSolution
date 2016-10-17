@@ -46,6 +46,7 @@ public partial class Admin_Security_Default : System.Web.UI.Page
 
     protected void UnregisteredUsersGridView_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
     {
+        UnregisteredUsersGridView.SelectedIndex = e.NewSelectedIndex;
         GridViewRow agvrow = UnregisteredUsersGridView.SelectedRow;
         if (agvrow !=null)
         {
@@ -56,6 +57,7 @@ public partial class Admin_Security_Default : System.Web.UI.Page
             UnregisteredUser user = new UnregisteredUser()
             {
                 Id = int.Parse(UnregisteredUsersGridView.SelectedDataKey.Value.ToString()),
+                UserType=usertype,
                 FirstName = agvrow.Cells[2].Text,
                 LastName = agvrow.Cells[3].Text,
                 AssignedUserName = username,
