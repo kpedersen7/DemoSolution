@@ -16,7 +16,7 @@ public partial class Account_Register : Page
         IdentityResult result = manager.Create(user, Password.Text);
         if (result.Succeeded)
         {
-            manager.AddToRole(user.Id, ChinookSystem.Security.SecurityRoles.RegisteredUsers);
+           
             IdentityHelper.SignIn(manager, user, isPersistent: false);
             IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
         }
