@@ -21,7 +21,55 @@
                 </div>
                 <!--  user tab  -->
                 <div class="tab-pane fade" id="roles">
-                    <h2>Role CRUD</h2>
+                    <asp:ListView ID="RoleListView" runat="server">
+                        <EmptyDataTemplate>
+                            <span>No Security roles have been set up.</span>
+                        </EmptyDataTemplate>
+                        <LayoutTemplate>
+                            <div class="row bginfo">
+                                <div class="col-sm-3 h4">Action</div>
+                                <div class="col-sm-3 h4">Role</div>
+                                <div class="col-sm-6 h4">Members</div>
+                            </div>
+                        </LayoutTemplate>
+                        <ItemTemplate>
+                            <div class="col-sm-3">
+                                <asp:LinkButton ID="RemoveRole" runat="server" 
+                                    CommandName="Delete">Remove</asp:LinkButton>
+                            </div>
+                            <div class="col-sm-3">
+                               <%# Item.RoleName %>
+                            </div>
+                            <div class="col-sm-6">
+                                <asp:Repeater ID="RoleUserReapter" runat="server"
+                                    DataSource="<%# Item.UserNames%>"
+                                    ItemType="System.String">
+                                    <ItemTemplate>
+                                         <%# Item %>
+                                    </ItemTemplate>
+                                    <SeparatorTemplate>, </SeparatorTemplate>
+                                </asp:Repeater>
+                            </div>
+                        </ItemTemplate>
+                        <InsertItemTemplate>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <asp:LinkButton ID="InsertRole" runat="server" 
+                                    CommandName="Insert">Insert</asp:LinkButton>
+                                    <asp:LinkButton ID="CancelButton" runat="server" 
+                                    CommandName="Cancel">Cancel</asp:LinkButton>
+                                </div>
+                                <div class="col-sm-3">
+                                    <asp:TextBox ID="RoleName" runat="server"
+                                        text='<%# BindItem.RoleName %>' 
+                                        placeholder="Role Name"></asp:TextBox>
+                                </div>
+                            </div>
+                        </InsertItemTemplate>
+                    </asp:ListView>
+                    <asp:ObjectDataSource ID="RoleListViewODS" runat="server">
+
+                    </asp:ObjectDataSource>
                 </div>
                 <!--  user tab  -->
                 <div class="tab-pane fade" id="unregistered">
