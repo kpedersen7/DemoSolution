@@ -47,8 +47,52 @@ namespace ChinookSystem.Security
                 //add to appropriate role
                 this.AddToRole(webmasterAccount.Id, SecurityRoles.WebsiteAdmins);
             }
-        }
+        }//eom
 
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<UnRegisteredUserProfile> ListAllUnRegisteredUsers()
+        {
+            using (var context = new ChinookContext())
+            {
+                //get the list of registered employees
+                //this will come from the AspNetUser table <ApplicationUser>
+                //where the int? Employee attribute has a value
+                var registeredemployees = from emp in Users
+                                          where emp.EmployeeId.HasValue
+                                          select emp.EmployeeId;
+                //compare the registeredemployee list to the user table Employees
+                //extract the Employees that are not registered
+                var unregisteredemployees = from emp in context.Employees
+                                            where !registeredemployees.Any(eid => emp.EmployeeId == eid)
+                                            select new UnRegisteredUserProfile()
+                                            {
+                                                id = emp.EmployeeId,
+                                                FirstName = emp.FirstName,
+                                                Lastname = emp.LastName,
+                                                UserType = UnregisteredUserType.Employee
+                                            };
+
+                //get the list of registered customers
+                //this will come from the AspNetUser table <ApplicationUser>
+                //where the int? CustomerId attribute has a value
+                var registeredcustomers = from cus in Users
+                                          where cus.CustomerId.HasValue
+                                          select cus.CustomerId;
+                //compare the registeredcustomer list to the user table Customer
+                //extract the Customers that are not registered
+                var unregisteredcustomers = from cus in context.Customers
+                                            where !registeredcustomers.Any(cid => cus.CustomerId == cid)
+                                            select new UnRegisteredUserProfile()
+                                            {
+                                                id = cus.CustomerId,
+                                                FirstName = cus.FirstName,
+                                                Lastname = cus.LastName,
+                                                UserType = UnregisteredUserType.Customer
+                                            };
+                //make one dataset out of the two unregistered user types
+                return unregisteredemployees.Union(unregisteredcustomers).ToList();
+            }
+        }//eom
       
-    }
-}
+    }//eoc
+}//eon
