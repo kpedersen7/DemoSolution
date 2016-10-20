@@ -18,7 +18,7 @@ namespace ChinookSystem.Security
         public RoleManager():base (new RoleStore<IdentityRole>(new ApplicationDbContext()))
         {
 
-        }
+        }//eom
 
         public void AddChinookRoles()
         {
@@ -38,8 +38,46 @@ namespace ChinookSystem.Security
                     this.Create(new IdentityRole(rolename));
                 }
             }
-        }
+        }//eom
+        
+        //Read
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
+        public List<RoleProfile> ListAllRoles()
+        {
+            var usermgr = new UserManager();
 
+            //at points one request data to be in memory
+            //for use by other queries
+            //here the data from the property in RoleManager
+            //needs to be brought into memory for use
+            //by my linq query
+            var results = from role in Roles.ToList()
+                          select new RoleProfile()
+                          {
+                              RoleId = role.Id,
+                              RoleName = role.Name,
+                              UserNames = role.Users.Select(r => usermgr.FindById(r.UserId).UserName)
+                          };
+            return results.ToList();
+        }//eom
+
+        //Add
+        [DataObjectMethod(DataObjectMethodType.Insert,true)]
+        public void AddRole(RoleProfile role)
+        {
+            //business logic validation
+            //New role names cannot already exist
+            if (!this.RoleExists(role.RoleName))
+            {
+                this.Create(new IdentityRole(role.RoleName));
+            }
+        }//eom
       
-    }
-}
+        //Delete
+        [DataObjectMethod(DataObjectMethodType.Delete,true)]
+        public void RemoveRole(RoleProfile role)
+        {
+            this.Delete(this.FindById(role.RoleId));
+        }
+    } //eoc
+}//eon
